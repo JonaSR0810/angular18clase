@@ -49,8 +49,8 @@ export class ListRecipesComponent {
         break
 
       case undefined:
-        request = this.fire.getRecipes()
-        break
+        request = this.fire.getRecipesWithID();
+  break;
       default:
         request = null
   
@@ -80,6 +80,12 @@ export class ListRecipesComponent {
     this.router.navigate(['recipe',idMeal])
   }
 
+  goToRecipeFavorite(idMeal:string){
+    //Navega a 'recipe/:id'
+    console.log(idMeal)
+    this.router.navigate(['favorite',idMeal])
+  }
+
   openModal(){
     this.isModalOpen = true
     history.pushState({},document.title)
@@ -91,5 +97,17 @@ export class ListRecipesComponent {
     }
     this.isModalOpen = false
   }
+
+  deleteRecipe(idMeal: string , event:any): void {
+    event.stopPropagation();
+    if (!idMeal) {
+      console.error("El ID de la receta no es válido:", idMeal);
+      return;
+    }
+    this.fire.deleteRecipe(idMeal)
+      .then(() => console.log("Receta eliminada correctamente:", idMeal))
+      .catch(err => console.error("Error al eliminar la receta:", err));
+  }
+  
 
 }

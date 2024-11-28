@@ -12,6 +12,7 @@ export const routes: Routes = [
     {path:"recipes/:type/:subtype",loadComponent: () => import('./pages/list-recipes/list-recipes.component').then(m=>m.ListRecipesComponent)},//LAZY
     {path:"recipes/favorites", loadComponent: () => import('./pages/list-recipes/list-recipes.component').then(m=>m.ListRecipesComponent)},
     {path:"recipe/:id", loadComponent: () => import('./pages/view-recipe/view-recipe.component').then(m=>m.ViewRecipeComponent)},//LAZY
+    {path:"favorite/:id", loadComponent: () => import('./pages/view-favorite/view-favorite.component').then(m=>m.ViewFavoriteComponent)},//LAZY
     {path: "", redirectTo: "/landing", pathMatch:"full"},
     {path:"**",component:ErrorPageComponent}//ANSIOSO
 ];

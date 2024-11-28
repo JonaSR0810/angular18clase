@@ -23,11 +23,16 @@ export class FireService {
    createRecipe(recipe : Recipe):Promise<DocumentReference<any>>{
     return this.itemCollection.add(recipe)
    }
-   deleteRecipe(id : string):Promise<void>{
-    return this.itemCollection.doc(id).delete();
+   deleteRecipe(id: string): Promise<void> {
+    console.log("Intentando eliminar documento con ID:", id);
+    return this.itemCollection.doc(id).delete().catch(err => {
+      console.error("Error al eliminar el documento:", err);
+    });
+  }
 
-   }
-   //update <Hacerlo nosotros>
+  getRecipesById(id: string): Observable<Recipe>{
+    return this.itemCollection.doc(id).valueChanges()
+  }
 
    getRecipes():Observable<Recipe[]>{
     return this.items$
@@ -35,15 +40,11 @@ export class FireService {
 
    getRecipesWithID() {
     return this.itemCollection.snapshotChanges().pipe(
-      map((actions: any) => {
-        return {
-          meals: actions.map((a: any) => {
-            const data = a.payload.doc.data() as Recipe;
-            const idMeal = a.payload.doc.id; // Obtener el ID del documento
-            return { idMeal, ...data }; // Devolver el ID junto con los datos
-          })
-        };
-      })
+      map((actions: any) => actions.map((a: any) => {
+        const data = a.payload.doc.data() as Recipe;
+        const idMeal = a.payload.doc.id; // Obtener el ID del documento
+        return { idMeal, ...data }; // Devolver el ID junto con los datos
+      }))
     );
   }
   

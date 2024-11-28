@@ -3,13 +3,13 @@ import { ApiService } from '../../services/api.service';
 import { CommonModule, JsonPipe } from '@angular/common';
 import { FireService } from '../../services/fire.service';
 @Component({
-  selector: 'app-view-recipe',
+  selector: 'app-view-favorite',
   standalone: true,
   imports: [JsonPipe, CommonModule],
-  templateUrl: './view-recipe.component.html',
-  styleUrl: './view-recipe.component.css'
+  templateUrl: './view-favorite.component.html',
+  styleUrl: './view-favorite.component.css'
 })
-export class ViewRecipeComponent {
+export class ViewFavoriteComponent {
   apiS = inject(ApiService);
   fire = inject(FireService)
 
@@ -31,8 +31,8 @@ export class ViewRecipeComponent {
     this.$state.update(state => {
       return { ...state, loading: true }
     });
-    // let request = this.fire.getRecipesWithID();
-    let request = this.apiS.getRecipesById(this.id())
+    let request = this.fire.getRecipesById(this.id());
+    // let request = this.apiS.getRecipesById(this.id())
     request?.subscribe({
       next: (data: any) => {
         console.log(data)
